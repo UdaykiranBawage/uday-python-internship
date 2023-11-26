@@ -1,0 +1,38 @@
+import string
+
+def password_strength(password):
+    min_length = 8
+
+    uppercase_chars = set(string.ascii_uppercase)
+    lowercase_chars = set(string.ascii_lowercase) 
+    digits = set(string.digits)
+    special_chars = set(string.punctuation)
+
+    if len(password) < min_length:
+        return "Password is too short. Minimum length should be {} characters.".format(min_length)
+
+    criteria_met = {
+        'uppercase': False,
+        'lowercase': False,
+        'digit': False,
+        'special_char': False
+    }
+
+    for char in password:
+        if char in uppercase_chars:
+            criteria_met['uppercase'] = True
+        elif char in lowercase_chars:
+            criteria_met['lowercase'] = True
+        elif char in digits:
+            criteria_met['digit'] = True
+        elif char in special_chars:
+            criteria_met['special_char'] = True
+    if all(criteria_met.values()):
+        return "Strong password!"
+    else:
+        not_met = [key for key, value in criteria_met.items() if not value]
+        return "Weak password. Missing: {}".format(', '.join(not_met))
+
+password = input("Enter your password: ")
+result = password_strength(password)
+print(result)
